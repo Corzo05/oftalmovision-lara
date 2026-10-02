@@ -1,0 +1,171 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+import profileJesusCorzo from '../assets/images/profileJesusCorzo.jpg';
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+
+import ServiceCard from '../components/ServiceCard.astro';
+---
+
+<Layout title='Oftalmovisión Lara | Home' description='Protege tu visión ahora, el futuro de tus ojos depende de ti. Agenda tu consulta con el Dr. Jesús Corzo'>
+  <section class="min-h-[70dvh] flex flex-col justify-center px-4 md:px-6 py-12 max-w-6xl mx-auto space-y-6 md:space-y-10" id="nosotros">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+      <div class="md:col-span-5 flex flex-col items-start group">
+        <Image src={profileJesusCorzo} alt="Dr. Jesús Corzo" class="rounded-full shadow-md group-hover:shadow-lg transition-shadow duration-300 mb-6" width={140} />
+        <span class="text-xs uppercase tracking-wider text-dark/50 font-inter mb-1">ATENCIÓN OFTALMOLÓGICA</span>
+        <h2 class="text-3xl md:text-4xl text-dark font-inter font-light mb-3">Dr. Jesús Corzo</h2>
+        <p class="font-mont text-dark/80 text-sm leading-relaxed">
+          Te acompaño en la evaluación, diagnóstico y cuidado de tu salud visual, con una atención personalizada y cercana.
+        </p>
+      </div>
+      <div class="md:col-span-7 flex flex-col justify-center bg-white/60 hover:bg-white p-6 md:p-10 rounded-none border border-dark/5 hover:border-skyblue-custom/30 shadow-sm hover:shadow-md transition-all duration-300">
+        <h3 class="text-3xl md:text-4xl text-dark tracking-wide font-inter font-light mb-4 leading-tight">Tus ojos hacen mucho por ti. <br class="hidden md:block"> Es hora de hacer algo por ellos.</h3>
+        <p class="font-mont text-dark/80 text-sm md:text-base leading-relaxed">
+          En Oftalmovisión Lara nos dedicamos al cuidado de tu salud visual con atención profesional y cercana. Realizamos evaluaciones, diagnóstico, seguimiento y tratamiento de diferentes condiciones oftalmológicas.
+          <br><br>
+          Queremos que cuando vengas a consulta no solo encuentres un lugar donde revisar tu vista, sino un espacio donde puedas sentirte escuchado, orientado y acompañado en el cuidado de tus ojos.
+        </p>
+      </div>
+    </div>
+    
+    <div class="flex flex-col items-center mt-10 text-center">
+      <h4 class="text-2xl md:text-3xl text-dark tracking-wide font-inter font-light mb-6">Cuidar tu visión empieza con una consulta.</h4>
+      <a href="#contacto" class="group inline-flex items-center gap-2 py-3 px-6 bg-skyblue-custom transition-all duration-300 text-md uppercase tracking-wider font-inter text-bright hover:bg-sky-500 hover:shadow-lg">
+        Agenda la tuya 
+        <span class="inline-block transform transition-transform duration-300 group-hover:translate-x-2">→</span>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 items-stretch mx-auto md:divide-x divide-y md:divide-y-0 divide-gray-200 mt-8 bg-white/60 hover:bg-white p-6 md:p-8 rounded-none border border-dark/5 hover:border-skyblue-custom/30 shadow-sm hover:shadow-md transition-all duration-300">
+      <div class="p-6 md:px-12 flex flex-col justify-center">
+        <h3 class="text-center text-xl md:text-2xl text-dark font-inter font-medium tracking-wide mb-4">Atención que comienza escuchándote</h3>
+        <p class="font-mont text-dark/80 text-sm md:text-base leading-relaxed text-center">Cada paciente tiene necesidades diferentes. Por eso, buscamos ofrecer una atención cercana, donde puedas expresar tus molestias y recibir una orientación clara sobre el cuidado de tu visión.</p>
+      </div>
+      <div class="p-6 md:px-12 flex flex-col justify-center">
+        <h3 class="text-center text-xl md:text-2xl text-dark font-inter font-medium tracking-wide mb-4">Experiencia al servicio de tu visión</h3>
+        <p class="font-mont text-dark/80 text-sm md:text-base leading-relaxed text-center">Con una mirada integral de la salud ocular, trabajamos en la evaluación, diagnóstico y seguimiento de distintas condiciones oftalmológicas, siempre buscando que recibas una atención clara y personalizada.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="min-h-dvh flex flex-col justify-center px-6 py-16 bg-gray-200/60 w-full" id="servicios">
+    <div class="text-center mb-12">
+      <span class="text-xs uppercase tracking-widest text-skyblue-custom font-inter mb-2 block">Nuestras Especialidades</span>
+      <h2 class="text-4xl md:text-5xl font-inter font-light text-dark">Servicios Oftalmológicos</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch mx-auto max-w-7xl">
+      <ServiceCard title="Consulta Oftalmológica" description="Revisamos tu salud visual de forma integral." />
+      <ServiceCard title="Examen visual" description="Conoce cómo está tu visión y detecta posibles problemas." />
+      <ServiceCard title="Glaucoma" description="Prevención, control y seguimiento de tu salud ocular." />
+      <ServiceCard title="Oftalmología pediátrica" description="Cuidamos la visión de los más pequeños." />
+      <ServiceCard title="Diagnóstico refractivo" description="Encuentra la graduación que necesitas." />
+      <ServiceCard title="Córnea" description="Evaluación y atención de alteraciones corneales." />
+      <ServiceCard title="Párpados e infecciones" description="Atención para orzuelos, chalazión y otras molestias." />
+      <ServiceCard title="Vías lagrimales" description="Evaluamos el lagrimeo y las molestias oculares." />
+      <ServiceCard title="Lentes y monturas" description="Soluciones visuales que se adaptan a ti." />
+    </div>
+  </section>
+
+  <section class="min-h-[70dvh] flex flex-col justify-center px-10 md:px-12 pt-12 pb-20 max-w-[90dvw] mx-auto space-y-8" id="contacto">
+    <div class="text-center mb-8">
+      <span class="text-xs uppercase tracking-widest text-skyblue-custom font-inter mb-2 block">Agenda tu consulta</span>
+      <h2 class="text-4xl md:text-5xl font-inter font-light text-dark">Contáctanos</h2>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch mx-auto w-full">
+      <div class="flex flex-col justify-start items-center">
+        <h4 class="text-xl md:text-2xl text-dark tracking-wide font-inter font-light mb-4 text-center">Es momento de revisar tu visión.</h4>
+        <span class="font-mont text-dark/80 text-sm md:text-base leading-relaxed text-center mb-6">¿Ves borroso? ¿Te cuesta enfocar? ¿Sientes cansancio visual? <br> <b>Estamos aquí para ayudarte.</b></span>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 border-2 border-skyblue-custom w-full bg-white/40 hover:bg-white transition-colors duration-300">
+          <div class="flex flex-col justify-start items-center p-6 space-y-2 border-b-2 sm:border-r-2 border-skyblue-custom group hover:bg-skyblue-custom/5 transition-colors">
+            <Icon name="lucide:phone" class="w-10 h-10 text-blue-custom group-hover:scale-110 transition-transform" />
+            <h4 class="text-xl md:text-2xl text-dark tracking-wide font-inter font-medium mb-2">Conversemos</h4>
+            <a href="tel:+584225533255" target="_blank" class="font-mont text-dark text-sm md:text-base leading-relaxed text-center hover:text-skyblue-custom transition-colors">0422-5533255</a>
+            <a href="https://wa.me/+584143550490" target="_blank" class="flex items-center gap-2 font-mont font-medium hover:text-skyblue-custom transition-colors">
+              <Icon name="simple-icons:whatsapp" class="w-6 h-6 text-green-600" /> +58414-3550490
+            </a>
+          </div>
+          <div class="flex flex-col justify-start items-center p-6 space-y-2 border-b-2 border-skyblue-custom group hover:bg-skyblue-custom/5 transition-colors">
+            <Icon name="lucide:map-pin-search" class="w-10 h-10 text-blue-custom group-hover:scale-110 transition-transform" />
+            <h4 class="text-xl md:text-2xl text-dark tracking-wide font-inter font-medium mb-2">Ubícanos</h4>
+            <a href="#" target="_blank" class="font-mont text-dark text-sm md:text-base leading-relaxed text-center hover:text-skyblue-custom transition-colors">Carrera 22 con calle 11, Policlínica Catedral. Barquisimeto, Lara</a>
+          </div>
+          <div class="flex flex-col justify-center items-center p-6 space-y-2 border-b-2 sm:border-b-0 sm:border-r-2 border-skyblue-custom group hover:bg-skyblue-custom/5 transition-colors">
+            <Icon name="lucide:instagram" class="w-10 h-10 text-blue-custom group-hover:scale-110 transition-transform" />
+            <h4 class="text-xl md:text-2xl text-dark tracking-wide font-inter font-medium mb-2">Sígueme</h4>
+            <a href="https://www.instagram.com/drjesuscorzo" target="_blank" class="font-mont text-dark text-sm md:text-base leading-relaxed text-center hover:text-skyblue-custom transition-colors">@drjesuscorzo</a>
+          </div>
+          <div class="flex flex-col justify-center items-center p-6 space-y-2 group hover:bg-skyblue-custom/5 transition-colors">
+            <Icon name="lucide:mail" class="w-10 h-10 text-blue-custom group-hover:scale-110 transition-transform" />
+            <h4 class="text-xl md:text-2xl text-dark tracking-wide font-inter font-medium mb-2">Escríbenos</h4>
+            <a href="mailto:consultas@drjesuscorzo.com.ve" target="_blank" class="font-mont text-dark text-sm md:text-base leading-relaxed text-center hover:text-skyblue-custom transition-colors break-all">consultas@drjesuscorzo.com.ve</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex flex-col justify-start bg-white/60 hover:bg-white p-6 md:p-10 rounded-none border border-dark/5 hover:border-skyblue-custom/40 shadow-sm hover:shadow-md transition-all duration-300">
+        <h3 class="text-2xl md:text-3xl text-dark tracking-wide font-inter font-medium mb-2 self-center">Envíanos un mensaje</h3>
+        <span class="text-gray-500 text-sm italic mb-6 self-center font-mont font-light">Campos Requeridos*</span>
+        
+        <form id="form-consult" class="flex flex-col w-full h-full gap-5 font-mont font-medium">
+          <div class="absolute left-[-9999px] top-[-9999px]" aria-hidden="true">
+            <label for="website">Sitio web</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <input type="text" placeholder="Nombre y Apellido*" required class="w-full px-5 py-3 rounded-none bg-gray-100 text-dark border border-transparent focus:bg-white focus:border-skyblue-custom focus:ring-1 focus:ring-skyblue-custom focus:outline-none transition-all duration-300" name="nombre" id="nombre">
+          <input type="number" placeholder="Teléfono*" required class="w-full px-5 py-3 rounded-none bg-gray-100 text-dark border border-transparent focus:bg-white focus:border-skyblue-custom focus:ring-1 focus:ring-skyblue-custom focus:outline-none transition-all duration-300" name="telf" id="telf">
+          <input type="email" placeholder="Email" class="w-full px-5 py-3 rounded-none bg-gray-100 text-dark border border-transparent focus:bg-white focus:border-skyblue-custom focus:ring-1 focus:ring-skyblue-custom focus:outline-none transition-all duration-300" name="email" id="email">
+          <textarea placeholder="Cuéntanos el detalle de tu solicitud...*" required class="w-full px-5 py-3 rounded-none bg-gray-100 text-dark border border-transparent focus:bg-white focus:border-skyblue-custom focus:ring-1 focus:ring-skyblue-custom focus:outline-none transition-all duration-300 resize-none" name="message" id="message" rows="5"></textarea>
+          <button type="submit" id="submit-form" class="cursor-pointer px-5 py-4 mt-2 bg-skyblue-custom rounded-none text-bright hover:bg-sky-500 hover:shadow-lg transition-all duration-300 uppercase tracking-wide">Enviar Mensaje</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const form = document.getElementById('form-consult') as HTMLFormElement;
+  const submitBtn = document.getElementById('submit-form') as HTMLButtonElement;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    submitBtn.textContent = 'Enviando...';
+    submitBtn.disabled = true;
+
+    const formData = new FormData(form);
+    const data = {
+      nombre: formData.get('nombre'),
+      telefono: formData.get('telf'),
+      email: formData.get('email'),
+      mensaje: formData.get('message'),
+      website: formData.get('website'),
+    };
+
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert('¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.');
+        form.reset();
+      } else {
+        alert('Error al enviar: ' + (result.error?.message || 'Inténtalo de nuevo.'));
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error de red al intentar enviar el formulario.');
+    } finally {
+      submitBtn.textContent = 'Enviar Mensaje';
+      submitBtn.disabled = false;
+    }
+  });
+</script>

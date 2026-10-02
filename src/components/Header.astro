@@ -1,0 +1,77 @@
+---
+import { Image } from 'astro:assets';
+import LogoSvg from '../assets/images/OftalmovisionLaraSvg.svg';
+import SocialIcons from './SocialIcons.astro';
+import { Icon } from 'astro-icon/components';
+---
+
+<header class="flex flex-row justify-between md:justify-around items-center p-4 md:p-3 font-inter font-extralight text-bright bg-blue-custom max-h-18 shadow-md sticky top-0 z-40" id="header">
+    <div class="flex flex-row justify-center items-center">
+        <h1 class="text-xl md:text-2xl lg:text-3xl tracking-wide">
+            <a href="#" class="flex flex-row justify-center items-center group">
+                <Image src={LogoSvg} alt="Dr. Jesús Corzo - Oftalmología en Venezuela" width={80} class="mr-2 text-custom-glow transition-transform duration-300 group-hover:scale-105" />
+                <span>Oftalmovisión Lara</span>
+            </a>
+        </h1>
+    </div>
+
+    <nav class="hidden md:flex flex-row p-2 divide-x divide-bright/30 text-lg items-center">
+        <a href="#" class="px-4 hover:text-sky-300 transition-colors duration-300">Home</a>
+        <a href="#nosotros" class="px-4 hover:text-sky-300 transition-colors duration-300">Quiénes Somos</a>
+        <a href="#servicios" class="px-4 hover:text-sky-300 transition-colors duration-300">Servicios</a>
+        <a href="#contacto" class="px-4 hover:text-sky-300 transition-colors duration-300">Contáctanos</a>
+    </nav>
+
+    <div class="hidden md:block">
+        <SocialIcons />
+    </div>
+
+    <button id="menu-btn" class="md:hidden flex items-center p-2 text-bright hover:text-sky-300 transition-colors" aria-label="Abrir menú">
+        <Icon name="lucide:menu" class="w-8 h-8" />
+    </button>
+</header>
+
+<aside id="mobile-menu" class="fixed inset-y-0 right-0 z-50 w-64 bg-blue-custom shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+    <div class="flex justify-end p-5 border-b border-bright/20">
+        <button id="close-btn" class="text-bright hover:text-sky-300 transition-colors" aria-label="Cerrar menú">
+            <Icon name="lucide:x" class="w-8 h-8" />
+        </button>
+    </div>
+    <nav class="flex flex-col p-6 space-y-6 text-lg text-bright font-inter font-light">
+        <a href="#" class="mobile-link hover:text-sky-300 transition-colors">Home</a>
+        <a href="#nosotros" class="mobile-link hover:text-sky-300 transition-colors">Quiénes Somos</a>
+        <a href="#servicios" class="mobile-link hover:text-sky-300 transition-colors">Servicios</a>
+        <a href="#contacto" class="mobile-link hover:text-sky-300 transition-colors">Contáctanos</a>
+    </nav>
+    <div class="mt-auto p-6 border-t border-bright/20 flex justify-center text-bright">
+        <SocialIcons />
+    </div>
+</aside>
+
+<div id="overlay" class="fixed inset-0 bg-black/50 z-40 hidden opacity-0 transition-opacity duration-300"></div>
+
+<script>
+    const menuBtn = document.getElementById('menu-btn');
+    const closeBtn = document.getElementById('close-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const overlay = document.getElementById('overlay');
+    const links = document.querySelectorAll('.mobile-link');
+
+    function toggleMenu() {
+        const isOpen = !mobileMenu?.classList.contains('translate-x-full');
+        if (isOpen) {
+            mobileMenu?.classList.add('translate-x-full');
+            overlay?.classList.remove('opacity-100');
+            setTimeout(() => overlay?.classList.add('hidden'), 300);
+        } else {
+            overlay?.classList.remove('hidden');
+            setTimeout(() => overlay?.classList.add('opacity-100'), 10);
+            mobileMenu?.classList.remove('translate-x-full');
+        }
+    }
+
+    menuBtn?.addEventListener('click', toggleMenu);
+    closeBtn?.addEventListener('click', toggleMenu);
+    overlay?.addEventListener('click', toggleMenu);
+    links.forEach(link => link.addEventListener('click', toggleMenu));
+</script>
