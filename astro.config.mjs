@@ -5,6 +5,8 @@ import vue from '@astrojs/vue';
 import tailwindcss from '@tailwindcss/vite';
 import icon from 'astro-icon';
 
+import vercel from '@astrojs/vercel';
+
 export default defineConfig({
   integrations: [vue(), icon()],
 
@@ -18,4 +20,6 @@ export default defineConfig({
       },
     },
   },
+  output: 'server',
+  adapter: vercel(),
 });
