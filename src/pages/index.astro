@@ -31,7 +31,7 @@ import ServiceCard from '../components/ServiceCard.astro';
     
     <div class="flex flex-col items-center mt-10 text-center">
       <h4 class="text-2xl md:text-3xl text-dark tracking-wide font-inter font-light mb-6">Cuidar tu visión empieza con una consulta.</h4>
-      <a href="#contacto" class="group inline-flex items-center gap-2 py-3 px-6 bg-skyblue-custom transition-all duration-300 text-md uppercase tracking-wider font-inter text-bright hover:bg-sky-500 hover:shadow-lg">
+      <a href="#form-consult-div" class="group inline-flex items-center gap-2 py-3 px-6 bg-skyblue-custom transition-all duration-300 text-md uppercase tracking-wider font-inter text-bright hover:bg-sky-500 hover:shadow-lg">
         Agenda la tuya 
         <span class="inline-block transform transition-transform duration-300 group-hover:translate-x-2">→</span>
       </a>
@@ -58,7 +58,7 @@ import ServiceCard from '../components/ServiceCard.astro';
       <ServiceCard title="Consulta Oftalmológica" description="Revisamos tu salud visual de forma integral." />
       <ServiceCard title="Examen visual" description="Conoce cómo está tu visión y detecta posibles problemas." />
       <ServiceCard title="Glaucoma" description="Prevención, control y seguimiento de tu salud ocular." />
-      <ServiceCard title="Oftalmología pediátrica" description="Cuidamos la visión de los más pequeños." />
+      <ServiceCard title="Salud Escolar" description="Cuidamos la visión de los más pequeños (Niños de 6 años en adelante)." />
       <ServiceCard title="Diagnóstico refractivo" description="Encuentra la graduación que necesitas." />
       <ServiceCard title="Córnea" description="Evaluación y atención de alteraciones corneales." />
       <ServiceCard title="Párpados e infecciones" description="Atención para orzuelos, chalazión y otras molestias." />
@@ -67,14 +67,14 @@ import ServiceCard from '../components/ServiceCard.astro';
     </div>
   </section>
 
-  <section class="min-h-[70dvh] flex flex-col justify-center px-10 md:px-12 pt-12 pb-20 max-w-[90dvw] mx-auto space-y-8" id="contacto">
+  <section class="min-h-[70dvh] flex flex-col justify-center px-2 md:px-12 pt-12 pb-20 max-w-[90dvw] mx-auto space-y-8" id="contacto">
     <div class="text-center mb-8">
       <span class="text-xs uppercase tracking-widest text-skyblue-custom font-inter mb-2 block">Agenda tu consulta</span>
       <h2 class="text-4xl md:text-5xl font-inter font-light text-dark">Contáctanos</h2>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch mx-auto w-full">
-      <div class="flex flex-col justify-start items-center">
+      <div class="flex flex-col justify-center items-center">
         <h4 class="text-xl md:text-2xl text-dark tracking-wide font-inter font-light mb-4 text-center">Es momento de revisar tu visión.</h4>
         <span class="font-mont text-dark/80 text-sm md:text-base leading-relaxed text-center mb-6">¿Ves borroso? ¿Te cuesta enfocar? ¿Sientes cansancio visual? <br> <b>Estamos aquí para ayudarte.</b></span>
         
@@ -105,8 +105,8 @@ import ServiceCard from '../components/ServiceCard.astro';
         </div>
       </div>
       
-      <div class="flex flex-col justify-start bg-white/60 hover:bg-white p-6 md:p-10 rounded-none border border-dark/5 hover:border-skyblue-custom/40 shadow-sm hover:shadow-md transition-all duration-300">
-        <h3 class="text-2xl md:text-3xl text-dark tracking-wide font-inter font-medium mb-2 self-center">Envíanos un mensaje</h3>
+      <div id="form-consult-div" class="scroll-mt-32 flex flex-col justify-start bg-white/60 hover:bg-white p-6 md:p-10 rounded-none border border-dark/5 hover:border-skyblue-custom/40 shadow-sm hover:shadow-md transition-all duration-300">
+        <h3 class="text-2xl md:text-3xl text-dark tracking-wide font-inter font-medium mb-2 self-center">Agenda tu cita ya</h3>
         <span class="text-gray-500 text-sm italic mb-6 self-center font-mont font-light">Campos Requeridos*</span>
         
         <form id="form-consult" class="flex flex-col w-full h-full gap-5 font-mont font-medium">
@@ -115,10 +115,64 @@ import ServiceCard from '../components/ServiceCard.astro';
             <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
           </div>
 
-          <input type="text" placeholder="Nombre y Apellido*" required class="w-full px-5 py-3 rounded-none bg-gray-100 text-dark border border-transparent focus:bg-white focus:border-skyblue-custom focus:ring-1 focus:ring-skyblue-custom focus:outline-none transition-all duration-300" name="nombre" id="nombre">
-          <input type="number" placeholder="Teléfono*" required class="w-full px-5 py-3 rounded-none bg-gray-100 text-dark border border-transparent focus:bg-white focus:border-skyblue-custom focus:ring-1 focus:ring-skyblue-custom focus:outline-none transition-all duration-300" name="telf" id="telf">
+          <input type="text" placeholder="Nombre Completo*" required class="w-full px-5 py-3 rounded-none bg-gray-100 text-dark border border-transparent focus:bg-white focus:border-skyblue-custom focus:ring-1 focus:ring-skyblue-custom focus:outline-none transition-all duration-300" name="nombre" id="nombre">
+
+          <div class="flex gap-2 w-full">
+            <select name="nacionalidad" id="nacionalidad" required class="px-3 py-3 rounded-none bg-gray-100 text-dark border border-transparent focus:bg-white focus:border-skyblue-custom focus:ring-1 focus:ring-skyblue-custom focus:outline-none transition-all duration-300 cursor-pointer">
+              <option value="V" selected>V-</option>
+              <option value="E">E-</option>
+            </select>
+            <input type="number" placeholder="Cédula de Identidad*" required class="flex-1 min-w-0 px-5 py-3 rounded-none bg-gray-100 text-dark border border-transparent focus:bg-white focus:border-skyblue-custom focus:ring-1 focus:ring-skyblue-custom focus:outline-none transition-all duration-300" name="cedula" id="cedula">
+          </div>
+
+          <div class="flex gap-2 w-full">
+            <select name="codigo_telf" id="codigo_telf" required class="px-3 py-3 rounded-none bg-gray-100 text-dark border border-transparent focus:bg-white focus:border-skyblue-custom focus:ring-1 focus:ring-skyblue-custom focus:outline-none transition-all duration-300 cursor-pointer">
+              <option value="0412">0412</option>
+              <option value="0422">0422</option>
+              <option value="0414">0414</option>
+              <option value="0424">0424</option>
+              <option value="0416">0416</option>
+              <option value="0426">0426</option>
+            </select>
+            <input 
+              type="tel" 
+              id="telf" 
+              name="telf" 
+              placeholder="Núm. de Teléfono*"
+              pattern="[0-9]{7}" 
+              maxlength="7" 
+              oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 7);"
+              required 
+              class="flex-1 min-w-0 px-5 py-3 rounded-none bg-gray-100 text-dark border border-transparent focus:bg-white focus:border-skyblue-custom focus:ring-1 focus:ring-skyblue-custom focus:outline-none transition-all duration-300"
+            >
+          </div>
+
           <input type="email" placeholder="Email" class="w-full px-5 py-3 rounded-none bg-gray-100 text-dark border border-transparent focus:bg-white focus:border-skyblue-custom focus:ring-1 focus:ring-skyblue-custom focus:outline-none transition-all duration-300" name="email" id="email">
-          <textarea placeholder="Cuéntanos el detalle de tu solicitud...*" required class="w-full px-5 py-3 rounded-none bg-gray-100 text-dark border border-transparent focus:bg-white focus:border-skyblue-custom focus:ring-1 focus:ring-skyblue-custom focus:outline-none transition-all duration-300 resize-none" name="message" id="message" rows="5"></textarea>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+            <div class="flex flex-col gap-1">
+              <label for="select-dia" class="text-xs uppercase tracking-wider text-dark/70 font-inter">Día*</label>
+              <select id="select-dia" name="fecha" required class="w-full px-4 py-3 rounded-none bg-gray-100 text-dark border border-transparent focus:bg-white focus:border-skyblue-custom focus:ring-1 focus:ring-skyblue-custom focus:outline-none transition-all duration-300 cursor-pointer">
+                <option value="" disabled selected>Selecciona un día</option>
+                <option value="Lunes">Lunes</option>
+                <option value="Martes">Martes</option>
+                <option value="Miércoles">Miércoles</option>
+                <option value="Jueves">Jueves</option>
+                <option value="Viernes">Viernes</option>
+                <option value="Sábado">Sábado</option>
+              </select>
+            </div>
+
+            <div class="flex flex-col gap-1">
+              <label for="select-hora" class="text-xs uppercase tracking-wider text-dark/70 font-inter">Hora*</label>
+              <select id="select-hora" name="hora" required disabled class="w-full px-4 py-3 rounded-none bg-gray-100 text-dark border border-transparent focus:bg-white focus:border-skyblue-custom focus:ring-1 focus:ring-skyblue-custom focus:outline-none transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                <option value="" disabled selected>Primero selecciona un día</option>
+              </select>
+            </div>
+          </div>
+
+          <textarea id="textarea-form" placeholder="Cuéntanos el detalle de tu cita...*" required class="w-full px-5 py-3 rounded-none bg-gray-100 text-dark border border-transparent focus:bg-white focus:border-skyblue-custom focus:ring-1 focus:ring-skyblue-custom focus:outline-none transition-all duration-300 resize-none" name="message" rows="5"></textarea>
+
           <button type="submit" id="submit-form" class="cursor-pointer px-5 py-4 mt-2 bg-skyblue-custom rounded-none text-bright hover:bg-sky-500 hover:shadow-lg transition-all duration-300 uppercase tracking-wide">Enviar Mensaje</button>
         </form>
       </div>
@@ -126,46 +180,4 @@ import ServiceCard from '../components/ServiceCard.astro';
   </section>
 </Layout>
 
-<script>
-  const form = document.getElementById('form-consult') as HTMLFormElement;
-  const submitBtn = document.getElementById('submit-form') as HTMLButtonElement;
-
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    submitBtn.textContent = 'Enviando...';
-    submitBtn.disabled = true;
-
-    const formData = new FormData(form);
-    const data = {
-      nombre: formData.get('nombre'),
-      telefono: formData.get('telf'),
-      email: formData.get('email'),
-      mensaje: formData.get('message'),
-      website: formData.get('website'),
-    };
-
-    try {
-      const response = await fetch('/api/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        alert('¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.');
-        form.reset();
-      } else {
-        alert('Error al enviar: ' + (result.error?.message || 'Inténtalo de nuevo.'));
-      }
-    } catch (err) {
-      console.error(err);
-      alert('Error de red al intentar enviar el formulario.');
-    } finally {
-      submitBtn.textContent = 'Enviar Mensaje';
-      submitBtn.disabled = false;
-    }
-  });
-</script>
+<script src="../scripts/form-consult.ts"></script>

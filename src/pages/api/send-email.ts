@@ -2,10 +2,19 @@ export const prerender = false;
 
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
+import { supabase } from '../../lib/supabase';
 
 const resend = new Resend(import.meta.env.RESEND_API_KEY);
 
-const buildEmailHtml = (nombre: string, telefono: string, email: string, mensaje: string) => `
+const buildEmailHtml = (
+  nombre: string,
+  cedula: string,
+  telefono: string,
+  email: string,
+  fecha: string,
+  hora: string,
+  mensaje: string
+) => `
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -14,12 +23,22 @@ const buildEmailHtml = (nombre: string, telefono: string, email: string, mensaje
 <body style="background-color: #f3f4f6; font-family: ui-sans-serif, system-ui, sans-serif; padding: 24px; color: #1f2937; margin: 0;">
   <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; border: 1px solid #e5e7eb; padding: 32px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);">
     
-    <h2 style="color: #111827; font-size: 20px; font-weight: bold; margin-top: 0; margin-bottom: 8px;">Nuevo mensaje de contacto de drjesuscorzo.com.ve</h2>
-    <p style="color: #4b5563; font-size: 14px; line-height: 1.5; margin-bottom: 16px;">Has recibido una nueva consulta con los siguientes datos:</p>
+    <h2 style="color: #111827; font-size: 20px; font-weight: bold; margin-top: 0; margin-bottom: 8px;">Nueva solicitud de cita en drjesuscorzo.com.ve</h2>
+    <p style="color: #4b5563; font-size: 14px; line-height: 1.5; margin-bottom: 16px;">Has recibido una solicitud de agendamiento con los siguientes datos:</p>
     
+    <div style="background-color: #f0f9ff; border: 1px solid #bae6fd; border-radius: 6px; padding: 16px; margin-bottom: 16px;">
+      <span style="display: block; font-weight: bold; color: #0284c7; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Cita Deseada</span>
+      <p style="color: #0369a1; font-size: 18px; font-weight: bold; margin: 0;">📅 ${fecha} — ⏰ ${hora}</p>
+    </div>
+
     <div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px; padding: 16px; margin-bottom: 16px;">
-      <span style="display: block; font-weight: bold; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Nombre y apellido</span>
+      <span style="display: block; font-weight: bold; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Nombre Completo</span>
       <p style="color: #111827; font-size: 16px; margin: 0;">${nombre}</p>
+    </div>
+
+    <div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px; padding: 16px; margin-bottom: 16px;">
+      <span style="display: block; font-weight: bold; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Cédula de Identidad</span>
+      <p style="color: #111827; font-size: 16px; margin: 0;">${cedula}</p>
     </div>
     
     <div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px; padding: 16px; margin-bottom: 16px;">
@@ -35,12 +54,12 @@ const buildEmailHtml = (nombre: string, telefono: string, email: string, mensaje
     </div>
     
     <div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px; padding: 16px; margin-bottom: 16px;">
-      <span style="display: block; font-weight: bold; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Mensaje</span>
+      <span style="display: block; font-weight: bold; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Detalle</span>
       <p style="color: #111827; font-size: 16px; margin: 0; white-space: pre-wrap; line-height: 1.625;">${mensaje}</p>
     </div>
     
     <div style="font-size: 12px; color: #9ca3af; text-align: center; margin-top: 24px; border-top: 1px solid #e5e7eb; padding-top: 16px;">
-      Este correo fue enviado automáticamente desde el formulario de contacto de tu dominio.
+      Este correo fue enviado automáticamente desde el formulario de agendamiento web.
     </div>
     
   </div>
@@ -51,7 +70,7 @@ const buildEmailHtml = (nombre: string, telefono: string, email: string, mensaje
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
-    const { nombre, telefono, email, mensaje, website } = body;
+    const { nombre, cedula, telefono, email, fecha, hora, mensaje, website } = body;
 
     if (website) {
       return new Response(JSON.stringify({ success: true, message: 'Mensaje procesado' }), {
@@ -60,23 +79,48 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    if (!nombre || !telefono || !mensaje) {
+    if (!nombre || !cedula || !telefono || !mensaje || !fecha || !hora) {
       return new Response(
-        JSON.stringify({ error: 'Faltan campos obligatorios' }),
+        JSON.stringify({ error: 'Faltan campos obligatorios (nombre, cédula, teléfono, fecha, hora y mensaje)' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
-    const { data, error } = await resend.emails.send({
+    const { data: existingSlot } = await supabase
+      .from('citas')
+      .select('id')
+      .eq('fecha', fecha)
+      .eq('hora', hora)
+      .maybeSingle();
+
+    if (existingSlot) {
+      return new Response(
+        JSON.stringify({ error: 'El horario seleccionado acaba de ser reservado. Por favor elige otro.' }),
+        { status: 409, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const { error: dbError } = await supabase.from('citas').insert([
+      { nombre, cedula, telefono, email, fecha, hora, mensaje }
+    ]);
+
+    if (dbError) {
+      return new Response(JSON.stringify({ error: 'Error al reservar el cupo en la base de datos' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    const { data, error: emailError } = await resend.emails.send({
       from: 'Contacto Web <consultas@drjesuscorzo.com.ve>',
       to: [import.meta.env.EMAIL_DESTINATARIO],
-      replyTo: email,
-      subject: `Nuevo mensaje de ${nombre}`,
-      html: buildEmailHtml(nombre, telefono, email, mensaje), 
+      replyTo: email || undefined,
+      subject: `Nueva cita: ${nombre} (${cedula}) - ${fecha} (${hora})`,
+      html: buildEmailHtml(nombre, cedula, telefono, email, fecha, hora, mensaje), 
     });
 
-    if (error) {
-      return new Response(JSON.stringify({ error }), {
+    if (emailError) {
+      return new Response(JSON.stringify({ error: emailError }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
       });
