@@ -6,15 +6,25 @@ import { supabase } from '../../lib/supabase';
 
 const resend = new Resend(import.meta.env.RESEND_API_KEY);
 
+const formatDateLabel = (isoDate: string) => {
+  if (!isoDate || !isoDate.includes('-')) return isoDate;
+  const [year, month, day] = isoDate.split('-');
+  return `${day}/${month}/${year}`;
+};
+
 const buildEmailHtml = (
   nombre: string,
   cedula: string,
   telefono: string,
   email: string,
+  nombreDia: string,
   fecha: string,
   hora: string,
   mensaje: string
-) => `
+) => {
+  const fechaFormateada = formatDateLabel(fecha);
+
+  return `
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -28,11 +38,11 @@ const buildEmailHtml = (
     
     <div style="background-color: #f0f9ff; border: 1px solid #bae6fd; border-radius: 6px; padding: 16px; margin-bottom: 16px;">
       <span style="display: block; font-weight: bold; color: #0284c7; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Cita Deseada</span>
-      <p style="color: #0369a1; font-size: 18px; font-weight: bold; margin: 0;">📅 ${fecha} — ⏰ ${hora}</p>
+      <p style="color: #0369a1; font-size: 18px; font-weight: bold; margin: 0;">📅 ${nombreDia} ${fechaFormateada} — ⏰ ${hora}</p>
     </div>
 
     <div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px; padding: 16px; margin-bottom: 16px;">
-      <span style="display: block; font-weight: bold; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Nombre Completo</span>
+      <span style="display: block; font-weight: bold; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Nombre y apellido</span>
       <p style="color: #111827; font-size: 16px; margin: 0;">${nombre}</p>
     </div>
 
@@ -54,7 +64,7 @@ const buildEmailHtml = (
     </div>
     
     <div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px; padding: 16px; margin-bottom: 16px;">
-      <span style="display: block; font-weight: bold; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Detalle</span>
+      <span style="display: block; font-weight: bold; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Detalle o Motivo</span>
       <p style="color: #111827; font-size: 16px; margin: 0; white-space: pre-wrap; line-height: 1.625;">${mensaje}</p>
     </div>
     
@@ -65,12 +75,13 @@ const buildEmailHtml = (
   </div>
 </body>
 </html>
-`;
+  `;
+};
 
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
-    const { nombre, cedula, telefono, email, fecha, hora, mensaje, website } = body;
+    const { nombre, cedula, telefono, email, nombreDia, fecha, hora, mensaje, website } = body;
 
     if (website) {
       return new Response(JSON.stringify({ success: true, message: 'Mensaje procesado' }), {
@@ -85,6 +96,8 @@ export const POST: APIRoute = async ({ request }) => {
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
+
+    const fechaFormateada = formatDateLabel(fecha);
 
     const { data: existingSlot } = await supabase
       .from('citas')
@@ -115,8 +128,8 @@ export const POST: APIRoute = async ({ request }) => {
       from: 'Contacto Web <consultas@drjesuscorzo.com.ve>',
       to: [import.meta.env.EMAIL_DESTINATARIO],
       replyTo: email || undefined,
-      subject: `Nueva cita: ${nombre} (${cedula}) - ${fecha} (${hora})`,
-      html: buildEmailHtml(nombre, cedula, telefono, email, fecha, hora, mensaje), 
+      subject: `Nueva cita: ${nombre} (${cedula}) - ${nombreDia} ${fechaFormateada} (${hora})`,
+      html: buildEmailHtml(nombre, cedula, telefono, email, nombreDia, fecha, hora, mensaje), 
     });
 
     if (emailError) {

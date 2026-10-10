@@ -10,18 +10,24 @@ export function initFormConsult() {
   if (!form) return; 
 
   const slotsLunesViernes = [
-    "08:00 AM", "08:30 AM", "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 M",
+    "08:00 AM", "08:30 AM", "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM",
     "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM", "05:00 PM"
   ];
 
   const slotsSabado = [
     "08:00 AM", "08:30 AM", "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", 
-    "11:00 AM", "11:30 AM", "12:00 M", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM"
+    "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM"
   ];
 
+  let nombreDia = "";
+
   selectDia?.addEventListener('change', async (e) => {
-    const diaSeleccionado = (e.target as HTMLSelectElement).value; 
-    const esSabado = diaSeleccionado.toLowerCase().includes('sábado') || diaSeleccionado.toLowerCase().includes('sabado');
+    const targetSelect = e.target as HTMLSelectElement;
+    const fechaISO = targetSelect.value; 
+    const selectedOption = targetSelect.options[targetSelect.selectedIndex];
+    nombreDia = selectedOption.getAttribute('data-nombre') || '';
+
+    const esSabado = nombreDia.toLowerCase().includes('sábado') || nombreDia.toLowerCase().includes('sabado');
     const horarios = esSabado ? slotsSabado : slotsLunesViernes;
 
     if (selectHora) {
@@ -30,7 +36,7 @@ export function initFormConsult() {
     }
 
     try {
-      const res = await fetch(`/api/booked-slots?fecha=${encodeURIComponent(diaSeleccionado)}`);
+      const res = await fetch(`/api/booked-slots?fecha=${encodeURIComponent(fechaISO)}`);
       const { bookedSlots } = await res.json();
 
       if (selectHora) {
@@ -85,6 +91,7 @@ export function initFormConsult() {
       cedula: cedulaCompleta,
       telefono: telefonoCompleto,
       email: formData.get('email'),
+      nombreDia: nombreDia,
       fecha: formData.get('fecha'),
       hora: formData.get('hora'),
       mensaje: formData.get('message'),
